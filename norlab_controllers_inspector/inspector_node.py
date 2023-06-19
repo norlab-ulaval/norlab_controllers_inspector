@@ -33,7 +33,7 @@ class ControllerSubscriber(Node):
     def loc_callback(self, msg):
         current_loc_x = msg.pose.pose.position.x
         current_loc_y = msg.pose.pose.position.y
-        self.get_logger().info('Current loc: (%s, %s)' % (current_loc_x, current_loc_y))
+        #self.get_logger().info('Current loc: (%s, %s)' % (current_loc_x, current_loc_y))
 
         self.loc_x.append(current_loc_x)
         self.loc_y.append(current_loc_y)

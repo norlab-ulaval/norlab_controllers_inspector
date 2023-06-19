@@ -1,6 +1,6 @@
 """
 Author: Cyril Goffin
-Last modified: 31/05/2023
+Last modified: 19/06/2023
 """
 
 
@@ -11,11 +11,11 @@ import matplotlib as mpl
 from scipy.spatial import KDTree
 
 
-files_path = '/home/nicolas/Desktop/TeachAndRepeat_Husky/RunInterieur_26-05'
+files_path = '/home/nicolas/Desktop/TeachAndRepeat_Husky/variation_kappa/kappa_0.05'
 
 
 def data_analysis(path):
-    # importing the data and removing points computed before the path following operation
+    # importing the data
     actual_path_df = pd.read_pickle('%s/loc.pkl' % path)
     target_path_df = pd.read_pickle('%s/ref_path.pkl' % path)
     actual_path = actual_path_df.to_numpy()
@@ -40,7 +40,7 @@ def data_analysis(path):
     median = np.median(nearest_distances)
     print('Error median:', np.round(median, 4), 'm')
 
-    # evaluating the error (= nearest distance)
+    # evaluating the XTE (i.e. shortest distance)
     fig, ax = plt.subplots()
     plt.ylabel('Cross-track error (XTE) / m')
     my_medianprops = dict(linestyle='-', linewidth=2, color='#fa5600')
@@ -49,7 +49,7 @@ def data_analysis(path):
     ax.set_xticks([])
     plt.savefig('%s/ErrorBoxPlot' % path)
 
-    # plotting paths with
+    # plotting both teach and repeat paths with color gradient according to the XTE
     plt.figure(figsize=(8, 6))
     plt.rc('font', family='serif')
     plt.rc('axes', axisbelow=True)
