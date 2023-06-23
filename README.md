@@ -20,12 +20,12 @@ ros2 service call /export_data norlab_controllers_msgs/srv/ExportData "export_pa
 ```
 
 ## Analysis scripts
-Secondly, once the data have been retrieved and saved locally, a non-ROS python script (named PathFollowingAnalysis) is used to compute the XTE along the path and its median. It also generates the 3 following figures :
+Secondly, once the data have been retrieved and saved locally, a non-ROS python script (named PathFollowingAnalysis) is used to compute the XTE along the path and its median as well as the time it took for the robot te complete the repeat phase. It also generates the 3 following figures :
 * plot of the teach and repeat paths,
 * boxplot of the XTE computed along the path,
 * plot of the teach and repeat paths with color gradient according to the XTE computed along the path. 
 
-Finally, after a few runs with slightly different controller’s parameters each time, a second non-ROS python script (named BoxPlotsComparison) may be used to generate an overview boxplot. This boxplot may help to visually express the increase or decrease of performance between different sets of parameters.
+Finally, after a few runs with slightly different controller’s parameters each time, a second non-ROS python script (named BoxPlotsComparison) may be used to generate an overview figure. This figure features a boxplot of the XTE computed along the path as well as a plot of the time taken by the robot te complete the repeat phase for each parameter value. It aims to visually express the increase or decrease of performance between different parameter values. 
 
 
 
