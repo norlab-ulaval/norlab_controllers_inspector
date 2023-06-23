@@ -1,6 +1,6 @@
 """
 Author: Cyril Goffin
-Last modified: 19/06/2023
+Last modified: 23/06/2023
 """
 
 import numpy as np
@@ -8,29 +8,29 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.spatial import KDTree
 
-save_path = '/home/nicolas//Desktop/TeachAndRepeat_Husky'
-parameter_name = 'phi'
+save_path = '/home/nicolas//Desktop/TeachAndRepeat_Husky_v3'
+parameter_name = 'kappa'
 
-files_path1 = '/home/nicolas//Desktop/TeachAndRepeat_Husky/variation_phi/phi_0.1'
-param_values1 = 0.1
+files_path1 = '/home/nicolas//Desktop/TeachAndRepeat_Husky_v3/variation_kappa/kappa_0.001'
+param_values1 = 0.001
 
-files_path2 = '/home/nicolas//Desktop/TeachAndRepeat_Husky/variation_phi/phi_0.25'
-param_values2 = 0.25
+files_path2 = '/home/nicolas//Desktop/TeachAndRepeat_Husky_v3/variation_kappa/kappa_0.002'
+param_values2 = 0.002
 
-files_path3 = '/home/nicolas//Desktop/TeachAndRepeat_Husky/variation_phi/phi_0.5'
-param_values3 = 0.5
+files_path3 = '/home/nicolas//Desktop/TeachAndRepeat_Husky_v3/variation_kappa/kappa_0.005'
+param_values3 = 0.005
 
-files_path4 = '/home/nicolas//Desktop/TeachAndRepeat_Husky/variation_phi/phi_1'
-param_values4 = 1
+files_path4 = '/home/nicolas//Desktop/TeachAndRepeat_Husky_v3/variation_kappa/kappa_0.01'
+param_values4 = 0.01
 
-files_path5 = '/home/nicolas//Desktop/TeachAndRepeat_Husky/variation_phi/phi_5'
-param_values5 = 5
+files_path5 = '/home/nicolas//Desktop/TeachAndRepeat_Husky_v3/variation_kappa/kappa_0.02'
+param_values5 = 0.02
 
-files_path6 = '/home/nicolas//Desktop/TeachAndRepeat_Husky/variation_phi/phi_10'
-param_values6 = 10
+files_path6 = '/home/nicolas//Desktop/TeachAndRepeat_Husky_v3/variation_kappa/kappa_0.05'
+param_values6 = 0.05
 
-files_path7 = '/home/nicolas//Desktop/TeachAndRepeat_Husky/variation_phi/phi_0.1'
-param_values7 = 20
+files_path7 = '/home/nicolas//Desktop/TeachAndRepeat_Husky_v3/variation_kappa/kappa_0.1'
+param_values7 = 0.1
 
 
 def data_analysis(path1, path2, path3, path4, path5, path6, path7):
@@ -100,8 +100,6 @@ def data_analysis(path1, path2, path3, path4, path5, path6, path7):
     print('# 7 Target path size:', len(target_path7[:, 0]), ' |  Actual path size:', len(actual_path7[:, 0]),
           ' |  Time it took:', time_path_7, 's')
 
-    time_paths = [time_path_1, time_path_2, time_path_3, time_path_4, time_path_5, time_path_6, time_path_7]
-
     # computing a KDTree (nearest-neighbor lookup) to find the nearest target path point for each actual path point
 
     # 1
@@ -147,36 +145,52 @@ def data_analysis(path1, path2, path3, path4, path5, path6, path7):
     print('# 7 Error median:', np.round(median7, 4), 'm')
 
     # evaluating the XTE (i.e. shortest distance)
+
+    # variables used
+    param_values = [param_values1, param_values2, param_values3,
+                    param_values4, param_values5, param_values6, param_values7]
     box_plot_data = [nearest_distances1, nearest_distances2, nearest_distances3,
-                     nearest_distances4, nearest_distances5, nearest_distances6]
+                     nearest_distances4, nearest_distances5, nearest_distances6, nearest_distances7]
+    time_paths = [time_path_1, time_path_2, time_path_3, time_path_4, time_path_5, time_path_6, time_path_7]
+    boxes_pos = [1, 2, 3, 4, 5, 6, 7]
+
+    # plot itself
     plt.rc('font', family='serif')
     plt.rc('axes', axisbelow=True)
-    fig, ax = plt.subplots(figsize=(7, 4), tight_layout='True')
 
-    ax.boxplot(box_plot_data,
-               showfliers=False,
-               patch_artist=True,
-               boxprops=dict(facecolor='#bb89ff', color='black'),
-               medianprops=dict(linestyle='-', linewidth=1.5, color='black'),
-               capprops=dict(color='black'),
-               whiskerprops=dict(color='black'))
-    ax.set_ylim(top=0.47)
-    ax.set_ylabel('Cross-track error (XTE) / m')
-    ax.set_xlabel("Angular velocity gain \u03C6 (\u03BB=1 and \u03BA=0.01)")
+    fig, ax1 = plt.subplots(figsize=(5.5, 4), tight_layout='True')
+    # ax1_color_light = '#ffce84'
+    # ax1_color = '#d48000'
+    ax1_color_light = '#E2D1F9'
+    ax1_color = '#9c5af3'
 
-    ax.set_xticks([1, 2, 3, 4, 5, 6],
-                  [param_values1, param_values2, param_values3, param_values4, param_values5, param_values6],
-                  fontsize='small')
-    ax.xaxis.set_tick_params(labelbottom=True, labeltop=False, bottom=True, direction='out')
+    ax1.boxplot(box_plot_data,
+                showfliers=False,
+                patch_artist=True,
+                boxprops=dict(facecolor=ax1_color_light, color=ax1_color),
+                medianprops=dict(linestyle='-', linewidth=1.5, color=ax1_color),
+                capprops=dict(color=ax1_color),
+                whiskerprops=dict(color=ax1_color))
+    ax1.set_ylim(top=0.75)
+    ax1.set_ylabel('Cross-track error (XTE) / m', color=ax1_color)
+    # phi_title = "Angular velocity gain \u03C6 (\u03BB=1 and \u03BA=0.01)"
+    # lambda_title = "State cost translational \u03BB (\u03C6=1 and \u03BA=0.01)"
+    kappa_title = "Input cost wheel \u03BA (\u03C6=1 and \u03BB=2)"
+    ax1.set_xlabel(kappa_title)
+    ax1.set_xticks(boxes_pos, param_values, fontsize='small')
+    ax1.xaxis.set_tick_params(labelbottom=True, labeltop=False, bottom=True, direction='out')
+    ax1.tick_params(axis='y', labelcolor=ax1_color)
 
-    for i in range(6):
-        # for 7 boxes : 0.0715+0.143*i
-        # for 6 boxes : 0.085+0.165*i, 0.65
-        plt.text(0.085+0.165*i, 0.94, '$t_{path}$='+str(round(time_paths[i]))+' s', horizontalalignment='center',
-                 verticalalignment='center', transform=ax.transAxes, fontsize='small', in_layout=True,
-                 bbox=dict(facecolor='#e0caff', boxstyle="round,pad=0.2", linewidth=0.5))
+    ax2 = ax1.twinx()
+    ax2_color = '#156a65'
+    ax2.set_ylim(bottom=0, top=450)
+    start, end = ax2.get_ylim()
+    ax2.yaxis.set_ticks(np.arange(start, end, 60))
+    ax2.set_ylabel('$t_{path}$ / s', color=ax2_color)
+    ax2.plot(boxes_pos, time_paths, '-.', color=ax2_color, linewidth=1.5)
+    ax2.tick_params(axis='y', labelcolor=ax2_color)
 
-    plt.savefig('%s/BoxPlotsComparisonForVariationOf_%s' % (save_path, parameter_name), dpi=300)
+    plt.savefig('%s/husky_variation_%s' % (save_path, parameter_name), dpi=300)
     plt.show()
 
 

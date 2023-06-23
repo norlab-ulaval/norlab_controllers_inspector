@@ -1,6 +1,6 @@
 """
 Author: Cyril Goffin
-Last modified: 19/06/2023
+Last modified: 23/06/2023
 """
 
 
@@ -11,7 +11,8 @@ import matplotlib as mpl
 from scipy.spatial import KDTree
 
 
-files_path = '/home/nicolas/Desktop/TeachAndRepeat_Husky/variation_kappa/kappa_0.05'
+files_path = '/home/nicolas/Desktop/TeachAndRepeat_Husky_v3/variation_kappa/kappa_0.01'
+f_odom = 10
 
 
 def data_analysis(path):
@@ -20,7 +21,9 @@ def data_analysis(path):
     target_path_df = pd.read_pickle('%s/ref_path.pkl' % path)
     actual_path = actual_path_df.to_numpy()
     target_path = target_path_df.to_numpy()
-    print('Target path size:', len(target_path[:, 0]), ' |  Actual path size:', len(actual_path[:, 0]))
+    time_path = len(actual_path[:, 0]) * 1 / f_odom
+    print('Target path size:', len(target_path[:, 0]), ' |  Actual path size:', len(actual_path[:, 0]),
+          ' |  Time it took:', time_path, 's')
 
     # plotting both teach and repeat paths
     plt.figure(figsize=(8, 6))
